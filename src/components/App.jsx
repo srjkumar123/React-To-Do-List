@@ -15,6 +15,7 @@ function addItem(){
   setItems(prevValue =>{
     return [...prevValue, inputText]
   })
+  setInputText("");
 }
 
   return (
