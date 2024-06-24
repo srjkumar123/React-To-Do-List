@@ -1,39 +1,58 @@
 import React, {useState} from "react";
-
+import CreateArea from "./CreateArea";
+import Header from "./Header";
+import Footer from "./Footer";
+import Note from "./Note";
 
 
 
 function App() {
-const [inputText, setInputText] = useState("");
-const [items, setItems]= useState([]);
+// const [inputText, setInputText] = useState("");
+// const [items, setItems]= useState([]);
+const [notes, setNotes] = useState([]);
 
-function handleChange(event){
-  const newValue = event.target.value;
-  setInputText(newValue)
+function addNote(newNote){
+    console.log(newNote);
+    setNotes((prevNotes) => {
+      return [  ...prevNotes,newNote]
+    });
 }
-function addItem(){
-  setItems(prevValue =>{
-    return [...prevValue, inputText]
-  })
-  setInputText("");
+function deleteNote(id){
+  console.log("DeleteNote()");
+  // setNotes((prevNotes) => {
+  //   return prevNotes.filter((noteItem, index) => {
+  //     return index !== id
+  //   })
+  // })
+  setNotes(prevNotes => {
+    return prevNotes.filter((noteItem, index) => {
+      return index !== id;
+    });
+  });
 }
+
 
   return (
-    <div className="container">
-      <div className="heading">
-        <h1>To-Do-List</h1>
-      </div>
-      <div className="form">
-        <input type="text" value={inputText} onChange={handleChange} />
-        <button onClick={addItem}><span>Add</span></button>
-      </div>
-      <div>
-        <ul>
-          {items.map((item) =>
-             (<li>{item}</li>
-             ))}
-        </ul>
-      </div>
+    <div  >
+     <Header />
+      <CreateArea onAdd={addNote} />
+      {
+        notes.map((noteItem, index) =>{
+          return(
+            <Note 
+             key={index}
+             id={index}
+             title={noteItem.title}
+             content={noteItem.content}
+             onDelete={deleteNote}
+            />
+          )
+        })
+      }
+     
+
+
+      <Footer />
     </div>
     
   );
